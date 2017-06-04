@@ -9,12 +9,15 @@
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
 
 <script src="dqapp.js"></script>
-<link rel="stylesheet" href="dqapp.css"</script>
+
+<script src="Login/loginController.js"></script>
+<script src="Home/homeController.js"></script>
+<script src="ui-routes.js"></script>
 
 <body ng-app="mainApp">
    <nav class="navbar navbar-default">
       <ul class="nav navbar-nav">
-         <a>Login</a>
+         <a ui-sref="login">Login</a>
          <a>Register</a>
          <a>Lobbies</a>
       </ul>
