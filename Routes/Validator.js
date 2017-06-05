@@ -18,7 +18,7 @@ Validator.Tags = {
    noTerms: "noTerms",              // Acceptance of terms is required.
    forbiddenRole: "forbiddenRole",  // Cannot set to this role
    noOldPwd: "noOldPwd",            // Change of password requires
-   dupTitle: "dupTitle",            // Title duplicate an existing title
+   dupName: "dupTitle",             // Name duplicate an existing name
    dupEnrollment: "dupEnrollment",  // Duplicate enrollment
    queryFailed: "queryFailed",      // Query failed to complete
    oldPwdMismatch: "oldPwdMismatch",// Old password does not match password
