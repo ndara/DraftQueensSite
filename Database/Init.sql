@@ -35,6 +35,7 @@ create table Lobby (
    name VARCHAR(128) not null,
    ownerId INT not null,
    guestId INT,
+   turn INT DEFAULT -1,
    unique key(name)
 );
 
@@ -50,7 +51,6 @@ create table Team (
    player5 CHAR(7),
    player6 CHAR(7),
    player7 CHAR(7),
-   turn INT,
    unique key(name)
 );
 
@@ -8563,3 +8563,4 @@ ALTER TABLE Player DROP COLUMN `pname`;
 ALTER TABLE Player DROP COLUMN `col`;
 ALTER TABLE Player DROP COLUMN `start`;
 ALTER TABLE Player DROP COLUMN `dcp`;
+ALTER TABLE Player DROP COLUMN `jnum`;

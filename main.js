@@ -3,9 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
-//var Session = require('./Routes/Session.js');
-//var Validator = require('./Routes/Validator.js');
-//var CnnPool = require('./Routes/CnnPool.js');
+var Session = require('./Routes/Session.js');
+var Validator = require('./Routes/Validator.js');
+var CnnPool = require('./Routes/CnnPool.js');
 
 var async = require('async');
 
@@ -16,13 +16,80 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-//app.use(Session.router);
+app.use(Session.router);
+
+app.use(function(req, res, next) {
+   console.log(req.path);
+   
+   if (req.session || (req.method === 'POST' &&
+    (req.path === '/Prss' || req.path === '/Ssns'))) {
+      req.validator = new Validator(req, res);
+      next();
+   } 
+
+   else {
+      res.status(401).end();
+   }
+});
+
+app.use(CnnPool.router);
+
+app.use('/Prss', require('./Routes/Account/Prss.js'));
+app.use('/Ssns', require('./Routes/Account/Ssns.js'));
+app.use('/Player', require('./Routes/Player/Player.js'));
+app.use('/Lobby', require('./Routes/Lobby/Lobby.js'));
+app.use('/Team', require('./Routes/Team/Team.js'));
+
+app.delete('/DB', function(req, res) {
+   var vld = req.validator;
+   // Callbacks to clear tables
+   if (vld.checkAdmin()) {
+      var cbs = ["Team", "Lobby", "Person"].map(function(tbl) {
+         return function(cb) {
+            req.cnn.query("delete from " + tbl, cb);
+         };
+      });
+
+      // Callbacks to reset increment bases
+      cbs = cbs.concat(["Team", "Lobby", "Person"]
+       .map(function(tbl) {
+         return function(cb) {
+            req.cnn.query("alter table " + tbl + " auto_increment = 1", cb);
+         };
+      }));
+
+      // Callback to reinsert admin user
+      cbs.push(function(cb) {
+         req.cnn.query('INSERT INTO Person (firstName, lastName, email,' +
+             ' password, whenRegistered) VALUES ' +
+             '("Joe", "Admin", "adm@11.com","password", NOW());', cb);
+      });
+
+      // Callback to clear sessions, release connection and return result
+      cbs.push(function(callback) {
+         for (var session in Session.sessions)
+            delete Session.sessions[session];
+         callback();
+      });
+
+      async.series(cbs, function(err) {
+         req.cnn.release();
+         if (err)
+            res.status(400).json(err);
+         else
+            res.status(200).end();
+      });
+   }
+
+   else {
+      req.cnn.release();
+   }
+});
+
 
 app.use(function(req, res, next) {
    res.status(404).end();
 });
-
-//app.use(CnnPool.router);
 
 (function() {
    var args = process.argv.slice(2);
