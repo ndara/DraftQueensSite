@@ -17,13 +17,13 @@
          <input type="password" class="form-control" placeholder="Password">
       </fieldset>
       <fieldset class="form-group">
-         <label>Password</label>
+         <label>Confirm Password</label>
          <input type="password" class="form-control" placeholder="Password">
       </fieldset>
       <div class="checkbox">
          <label>
             <input type="checkbox" ng-model="user.termsAccepted">
-            Do you accept the terms and conditions?
+            Do you accept the <a ng-click="showTerms()">terms and conditions</a>?
          </label>
       </div>
 
