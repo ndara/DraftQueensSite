@@ -25,10 +25,10 @@ router.get('/', function(req, res) {
 
    else {
       req.cnn.chkQry(noPrm, null,
-      function(err, cnvs) {
+      function(err, plys) {
 
          if (!err) {
-            res.status(200).json(cnvs);
+            res.status(200).json(plys);
          }
          req.cnn.release();
       });
