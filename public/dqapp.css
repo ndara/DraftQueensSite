@@ -1,6 +1,21 @@
-.form {
+.short {
    display: inline-block;
    text-align: center;
    margin: 0 auto;
-   padding-left: 45%;
+}
+
+.register {
+   padding-left: 39%;
+}
+
+.login {
+   padding-left: 43%;
+}
+
+.lobby {
+   padding-left: 43%;
+}
+
+.icon {
+   margin-top: 7%;
 }

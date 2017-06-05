@@ -1,0 +1,20 @@
+<div class="short lobby">
+<h2>Lobbies</h2>
+<div class="list-group">
+   <div class="list-group-item" ng-repeat="lobby in lobbies">
+      <button class="btn btn-info" type="button" style="margin-top:5px">
+         {{lobby.name}}
+      </button>
+      <button type="button" class="btn btn-default btn-xs pull-right icon" ng-show="true">
+         <span class="glyphicon glyphicon-edit"</span>
+      </button>
+      <button type="button" class="btn btn-default btn-xs pull-right icon" ng-show="true">
+         <span class="glyphicon glyphicon-trash"</span>
+      </button>
+   </div>
+   <br>
+   <button class="btn btn-success" type="button" style="margin-top:5px">
+      New Lobby
+   </button>
+</div>
+</div>

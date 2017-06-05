@@ -11,6 +11,8 @@
 <script src="dqapp.js"></script>
 <link rel="stylesheet" href="dqapp.css"></script>
 
+<script src="Lobby/lobbyController.js"></script>
+<script src="Register/registerController.js"></script>
 <script src="Login/loginController.js"></script>
 <script src="Home/homeController.js"></script>
 <script src="ui-routes.js"></script>
@@ -18,9 +20,15 @@
 <body ng-app="mainApp">
    <nav class="navbar navbar-default">
       <ul class="nav navbar-nav">
-         <a ui-sref="login">Login</a>
-         <a>Register</a>
-         <a>Lobbies</a>
+         <li>
+            <a ui-sref="login">Login</a>
+         </li>         
+         <li>
+            <a ui-sref="register">Register</a>
+         </li>
+         <li>
+            <a ui-sref="lobbies">Lobbies</a>
+         </li>
       </ul>
    </nav>
    <div ui-view></div>
