@@ -101,9 +101,9 @@ router.post('/:teamId/Players', function(req, res) {
    
    async.waterfall([
    function(cb) {
-      if (vld.hasFields(body, ["playerId"], cb) {
+      if (vld.hasFields(body, ["playerId"], cb)) {
          cnn.chkQry('select * from Team where id = ?',
-          [req.params.teamId], cb));
+          [req.params.teamId], cb);
       }
    },
 
