@@ -8,7 +8,7 @@ create table Person (
    lastName varchar(30) not null,
    email varchar(30) not null,
    password varchar(50),
-   whenRegistered datetime not null,
+   whenRegistered datetime,
    termsAccepted datetime,
    unique key(email)
 );
@@ -44,13 +44,13 @@ create table Team (
    userId INT not null,
    name VARCHAR(128) not null,
    lobbyId INT not null,
-   player1 CHAR(7),
-   player2 CHAR(7),
-   player3 CHAR(7),
-   player4 CHAR(7),
-   player5 CHAR(7),
-   player6 CHAR(7),
-   player7 CHAR(7),
+   player1 INT,
+   player2 INT,
+   player3 INT,
+   player4 INT,
+   player5 INT,
+   player6 INT,
+   player7 INT,
    unique key(name)
 );
 

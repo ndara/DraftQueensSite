@@ -6,7 +6,7 @@ var mysql = require('mysql');
 
 router.baseURL = '/Prss';
 
-router.get('/', function(req, res) {
+/*router.get('/', function(req, res) {
    var handler = function(err, prsArr) {
       res.json(prsArr);
       req.cnn.release();
@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
    else {
       req.cnn.chkQry('select id, email from Person', handler);
    }
-});
+});*/
 
 router.post('/', function(req, res) {
    var vld = req.validator;  // Shorthands

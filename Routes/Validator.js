@@ -16,13 +16,16 @@ Validator.Tags = {
    badLogin: "badLogin",            // Email/password combination invalid
    dupEmail: "dupEmail",            // Email duplicates an existing email
    noTerms: "noTerms",              // Acceptance of terms is required.
-   forbiddenRole: "forbiddenRole",  // Cannot set to this role
    noOldPwd: "noOldPwd",            // Change of password requires
    dupName: "dupTitle",             // Name duplicate an existing name
    dupEnrollment: "dupEnrollment",  // Duplicate enrollment
    queryFailed: "queryFailed",      // Query failed to complete
    oldPwdMismatch: "oldPwdMismatch",// Old password does not match password
-   forbiddenField: "forbiddenField" // Field is not allowed
+   forbiddenField: "forbiddenField",// Field is not allowed
+   draftInProgress: "draftInProgress",//Request invalid when draft in progress
+   playerLimitReached: "playerLimitReached", //No more players can be added
+   dupTeam: "dupTeam", //A team already exists for this user/lobby combination
+   fullLoby: "fullLoby", //A lobby has reached its user limit
 };
 
 // Check |test|.  If false, add an error with tag and possibly empty array
@@ -79,6 +82,20 @@ Validator.prototype.checkPrsOK = function(prsId, cb) {
 
    return this.check(this.session &&
     (this.session.id == prsId),
+    Validator.Tags.noPermission, null, cb);
+};
+
+Validator.prototype.checkPrssOK = function(prsId, prsId2, cb) {
+
+   return this.check(this.session &&
+    (this.session.id == prsId || this.session.id == prsId2),
+    Validator.Tags.noPermission, null, cb);
+};
+
+Validator.prototype.checkPrsNotOK = function(prsId, cb) {
+
+   return this.check(this.session &&
+    (this.session.id !== prsId),
     Validator.Tags.noPermission, null, cb);
 };
 

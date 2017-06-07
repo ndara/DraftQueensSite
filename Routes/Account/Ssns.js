@@ -6,7 +6,7 @@ var router = Express.Router({caseSensitive: true});
 
 router.baseURL = '/Ssns';
 
-router.get('/', function(req, res) {
+/*router.get('/', function(req, res) {
    var body = [];
    var ssn;
 
@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
    res.status(200).json(body);
 
    req.cnn.release();
-});
+});*/
 
 router.post('/', function(req, res) {
    var cookie;

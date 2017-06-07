@@ -43,7 +43,7 @@ app.use('/Team', require('./Routes/Team/Team.js'));
 app.delete('/DB', function(req, res) {
    var vld = req.validator;
    // Callbacks to clear tables
-   if (vld.checkAdmin()) {
+   if (vld.checkPrsOK(req.session.id)) {
       var cbs = ["Team", "Lobby", "Person"].map(function(tbl) {
          return function(cb) {
             req.cnn.query("delete from " + tbl, cb);
@@ -60,7 +60,7 @@ app.delete('/DB', function(req, res) {
 
       // Callback to reinsert admin user
       cbs.push(function(cb) {
-         req.cnn.query('INSERT INTO Person (firstName, lastName, email,' +
+         req.cnn.query('insert into Person (firstName, lastName, email,' +
              ' password, whenRegistered) VALUES ' +
              '("Joe", "Admin", "adm@11.com","password", NOW());', cb);
       });

@@ -53,5 +53,4 @@ router.get('/:playerId', function(req, res) {
    });
 });
 
-
 module.exports = router;
