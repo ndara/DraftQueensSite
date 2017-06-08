@@ -4,7 +4,7 @@ var router = Express.Router({caseSensitive: true});
 var async = require('async');
 var mysql = require('mysql');
 
-router.baseURL = '/Player';
+router.baseURL = '/Players';
 
 router.get('/', function(req, res) {
    var query = 'select id, fname, lname, pos1, height, weight, team ' +

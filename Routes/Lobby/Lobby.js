@@ -4,12 +4,12 @@ var router = Express.Router({caseSensitive: true});
 var async = require('async');
 var mysql = require('mysql');
 
-router.baseURL = '/Lobby';
+router.baseURL = '/Lobbies';
 
 router.get('/', function(req, res) {
-   var query = 'select name, ownerId, guestId, turn from Lobby where ' +
+   var query = 'select id, name, ownerId, guestId, turn from Lobby where ' +
     'ownerId = ? or guestId = ?';
-   var noPrm = 'select name, ownerId, guestId, turn from Lobby';
+   var noPrm = 'select id, name, ownerId, guestId, turn from Lobby';
 
    if (req.query.participantId) {
       req.cnn.chkQry(query, 
@@ -26,7 +26,6 @@ router.get('/', function(req, res) {
    else {
       req.cnn.chkQry(noPrm, null,
       function(err, lbys) {
-
          if (!err) {
             res.status(200).json(lbys);
          }
@@ -41,7 +40,6 @@ router.post('/', function(req, res) {
    var cnn = req.cnn;
    var nameQuery = 'select * from Lobby where name = ?';
    var insertQuery = "insert into Lobby (name, ownerId) values (?, ?)";
-
    async.waterfall([
    function(cb) {
       if (vld.hasFields(body, ["name"], cb) 
@@ -51,7 +49,7 @@ router.post('/', function(req, res) {
    },
    
    function(existingName, fields, cb) {
-      if (vld.check(!existingName.length, Tags.dupname, null, cb)) {
+      if (vld.check(!existingName.length, Tags.dupName, null, cb)) {
          cnn.chkQry(insertQuery, [body.name, req.session.id], cb);
       }
    },
@@ -67,7 +65,8 @@ router.post('/', function(req, res) {
 });
 
 router.get('/:lobbyId', function(req, res) {
-   var query = 'select name, ownerId, guestId, turn from Lobby where id = ?';
+   var query = 'select id, name, ownerId, guestId, turn '
+    + 'from Lobby where id = ?';
 
    req.cnn.chkQry(query, [req.params.lobbyId],
     function(err, lbys) {
@@ -76,7 +75,7 @@ router.get('/:lobbyId', function(req, res) {
        }
 
        else {
-          req.validator.check(false, Tags.notFound, null);
+          req.validator.check(false, Tags.notFound, null, null);
        }
 
        req.cnn.release();
@@ -125,9 +124,6 @@ router.put('/:lobbyId', function(req, res) {
          if (vld.check(!sameName.length, Tags.dupName, null, cb)) {
             req.cnn.chkQry('update Lobby set name = ? where id = ?',
              [req.body.name, id], cb);
-         }
-         else {
-            cb();
          }
       }],
 
@@ -178,41 +174,52 @@ router.put('/:lobbyId', function(req, res) {
 
 router.delete('/:lobbyId', function(req, res) {
    var vld = req.validator;
-   var id = req.params.lobbyId;
    var cnn = req.cnn;
-   var brs = false;
 
-   async.waterfall([
-   function(cb) {
-      cnn.chkQry('select * from Lobby where id = ?', [id], cb);
-   },
-
-   function(lbys, fields, cb) {
-      if (vld.check(lbys.length, Tags.notFound, null, cb) 
-       && vld.check(lbys[0]["turns"] < 0 || lbys[0]["turns"] > 13,
-       Tags.draftInProgress, null, cb)) {
-         if (req.session.id === lbys[0]["ownerId"]) {
-            cnn.chkQry('delete from Lobby where id = ?', [id], cb);
-         }
-
-         else if (req.session.id === lbys[0]["guestId"]) {
-            cnn.chkQry('update Lobby set guestId = ? where id = ?',
-             [null, id], cb);
-         }
-
-         else {
-            vld.checkPrsOK(null, cb)
-            brs = true;
-         }
-      }
-   }],
-
-   function(err) {
-      if (!err && !brs) {
-         res.status(200).end();
-      }
+   var releaseCb = function() {
       cnn.release();
-   });
+      res.status(200).end();
+   };
+   
+   var prsChecker = function() {
+      cnn.chkQry('select * from Lobby where id = ?', [req.params.lobbyId],
+       function(err, lbys) {
+
+          if (!vld.check(lbys.length, Tags.notFound, null)) {
+             req.cnn.release();
+          }
+
+          else if (!vld.check(lbys[0]["turn"] < 0 || lbys[0]["turn"] > 13)
+           , Tags.draftInProgress, null) {
+             req.cnn.release();
+          }
+
+          else {
+             if (req.session.id === lbys[0]["ownerId"]) {
+                cnn.chkQry('delete from Lobby where id = ?', 
+                [req.params.lobbyId], function() {
+                    cnn.chkQry('delete from Team where lobbyId = ?',
+                     [req.params.lobbyId], releaseCb);
+                });
+             }
+
+             else if (req.session.id === lbys[0]["guestId"]) {
+                cnn.chkQry('update Lobby set guestId = ? where id = ?',
+                 [null, req.params.lobbyId], function() {
+                    cnn.chkQry('delete from Team where lobbyId = ? and '
+                     + 'userId = ?',
+                     [req.params.lobbyId, req.session.id], releaseCb);
+                 });
+             }
+
+             else {
+                req.cnn.release();
+                vld.checkPrsOK();
+             }
+
+          }
+       });   
+   }();
 });
 
 router.post('/:lobbyId/Teams', function(req, res) {
@@ -230,9 +237,9 @@ router.post('/:lobbyId/Teams', function(req, res) {
 
    function(lby, fields, cb) {
       if (vld.check(lby.length, Tags.notFound, null, cb)
-       && vld.chkPrssOK(lby[0]["ownerId"], lby[0]["guestId"], cb)) {
+       && vld.checkPrssOK(lby[0]["ownerId"], lby[0]["guestId"], cb)) {
          cnn.chkQry('select * from Team where lobbyId = ? and userId = ?',
-          [req.params.lobbyId, lby[0]["ownerId"]], cb);
+          [req.params.lobbyId, req.session.id], cb); //old: lby[0]["ownerId"]
       }
    },
 
@@ -262,23 +269,24 @@ router.post('/:lobbyId/Teams', function(req, res) {
 
 router.get('/:lobbyId/Teams', function(req, res) {
    var vld = req.validator;
-   var params = req.params;
    var body = req.body;
-   var chkQry = req.cnn.chkqry;
 
    async.waterfall([
    function(cb) {
-      chkQry('select * from Lobby where id = ?', [params.lobbyId], cb);
+      req.cnn.chkQry('select * from Lobby where id = ?',
+       [req.params.lobbyId], cb);
    },
 
    function(lby, fields, cb) {
       if (vld.check(lby.length, Tags.notFound, null, cb)) {
-         chkQry('select * from Team where lobbyId = ?', [params.lobbyId], cb)
+         req.cnn.chkQry('select * from Team where lobbyId = ?',
+          [req.params.lobbyId], cb)
       }
    },
 
    function(tms, fields, cb) {
       res.json(tms);
+      cb();
    }],
 
    function() {
