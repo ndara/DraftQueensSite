@@ -23,5 +23,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
       url: '/lobbies',
       templateUrl: 'Lobby/lobby.template.html',
       controller: 'lobbyController',
+   })
+   .state('draft', {
+      url: '/lobbies/{lobbyId}',
+      templateUrl: 'Lobby/draft.template.html',
+      controller: 'draftController',
+      //TODO Add resolve statements to grab necessary items from backend
    });
 }]);
