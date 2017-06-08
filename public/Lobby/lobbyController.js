@@ -15,6 +15,7 @@ app.controller('lobbyController',
       })
       .then(function() {
          // TODO: Do a state.go to the proper lobby
+         $state.go('draft', ({lobbyId: lobbyId}));         
       })
       .catch(function(err) {
          if (err) {
