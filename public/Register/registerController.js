@@ -2,14 +2,7 @@ app.controller('registerController',
  ['$scope', '$rootScope', '$state', '$http', 'notifyDlg', 'terms', '$interval',
  function($scope, $rootScope, $state, $http, nDlg, terms, $interval) {
 
-   $scope.num = 0;
    $scope.errors = [];
-
-   $scope.increaseNum = function() {
-      $scope.num++;
-   };
-
-   $interval($scope.increaseNum, 1000);
 
    $scope.showTerms = function() {
       nDlg.show($scope, terms.TERMS,

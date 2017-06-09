@@ -3,8 +3,11 @@ var app = angular.module('mainApp', [
    'ui.bootstrap'
 ]);
 
+app.constant('terms', {
+   'TERMS' : 'These are the terms and conditions...'
+});
+
 app.constant("errMap", {
-   'TERMS' : 'These are the terms and conditions...',
    missingField: 'Field missing from request: ',
    badValue: 'Field has bad value: ',
    notFound: 'Entity not present in DB',
