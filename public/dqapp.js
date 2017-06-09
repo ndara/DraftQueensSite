@@ -3,13 +3,8 @@ var app = angular.module('mainApp', [
    'ui.bootstrap'
 ]);
 
-app.constant("terms", {
-   'TERMS' : 'insert terms and conditions'
-});
-
-
 app.constant("errMap", {
-   TERMS : 'These are the terms and conditions...',
+   'TERMS' : 'These are the terms and conditions...',
    missingField: 'Field missing from request: ',
    badValue: 'Field has bad value: ',
    notFound: 'Entity not present in DB',
@@ -31,6 +26,9 @@ app.constant("errMap", {
 
 app.filter('tagError', ['errMap', function(errMap) {
    return function(err) {
+      if (err.params) console.log("err: " + err.params[0]);
+
+      if (err.params) err.params[0] = "myErrrr";
       return (err.params && err.params.length ? err.params[0] : "");
    };
 }]);
