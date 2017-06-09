@@ -8,7 +8,7 @@ var CnnPool = function() {
    this.pool = mysql.createPool(poolCfg);
 };
 
-CnnPool.PoolSize = 1;
+CnnPool.PoolSize = 500;
 
 // Conventional getConnection, drawing from the pool
 CnnPool.prototype.getConnection = function(cb) {

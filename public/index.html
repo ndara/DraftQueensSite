@@ -24,14 +24,22 @@
 <body ng-app="mainApp">
    <nav class="navbar navbar-default">
       <ul class="nav navbar-nav">
-         <li>
+         <li ng-if="!user">
             <a ui-sref="login">Login</a>
          </li>
-         <li>
+         <li ng-if="!user">
             <a ui-sref="register">Register</a>
          </li>
-         <li>
+         <li ng-if="!!user">
             <a ui-sref="lobbies">Lobbies</a>
+         </li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+         <li ng-if="!!user">
+            <a ng-controller="loginController" ng-click="logout()">Logout</a>
+         </li>
+         <li class="navbar-text" ng-if="!!user">
+            {{(user.firstName ? user.firstName + " " : "") + user.lastName}}
          </li>
       </ul>
    </nav>
