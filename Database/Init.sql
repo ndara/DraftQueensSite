@@ -1,6 +1,6 @@
 drop database if exists gubains;
 create database gubains;
-use gubains;
+use nsfard;
 
 create table Person (
    id int auto_increment primary key,
@@ -55,9 +55,9 @@ create table Team (
 );
 
 
-insert into Person 
+insert into Person
    (firstName, lastName, email, password, whenRegistered)
-VALUES 
+VALUES
    ("Joe", "Admin", "adm@11.com", "password", NOW());
 
 
