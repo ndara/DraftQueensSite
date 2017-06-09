@@ -13,7 +13,7 @@
          ng-model="user.password">
       </fieldset>
 
-  <button type="submit" class="btn btn-success"
+  <button type="submit" class="btn btn-success" ng-click="login()"
    ng-disabled="!user.password || !user.email">Submit</button>
 </form>
 </div>
