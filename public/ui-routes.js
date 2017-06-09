@@ -23,6 +23,14 @@ app.config(['$stateProvider', '$urlRouterProvider',
       url: '/lobbies',
       templateUrl: 'Lobby/lobby.template.html',
       controller: 'lobbyController',
+      resolve: {
+         lobbies: ['$q', '$http', function($q, $http) {
+            return $http.get('/Lobbies')
+            .then(function(response) {
+               return response.data;
+            });
+         }]
+      }
    })
    .state('draft', {
       url: '/lobbies/{lobbyId}',

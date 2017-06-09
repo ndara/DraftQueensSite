@@ -1,10 +1,12 @@
 app.controller('lobbyController',
- ['$scope', '$state', '$http', '$uibModal', 'notifyDlg',
- function($scope, $state, $http, $uibM, nDlg) {
+ ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'lobbies',
+ function($scope, $state, $http, $uibM, nDlg, lobbies) {
 
-   $scope.lobbies = [{name: "swag", id: 1}, {name: "yeet", id: 2}, {name: "swervefordaysbruh", id: 3}];
+   //$scope.lobbies = [{name: "swag", id: 1}, {name: "yeet", id: 2}, {name: "swervefordaysbruh", id: 3}];
+   $scope.lobbies = lobbies;
 
    $scope.joinLobby = function(lobbyId) {
+      $scope.dlgTitle = "Join Lobby";
       $uibM.open({
          templateUrl: 'Lobby/joinLobbyDlg.template.html',
          scope: $scope
@@ -25,21 +27,27 @@ app.controller('lobbyController',
    };
 
    $scope.newLobby = function() {
+      $scope.dlgTitle = "New Lobby";
+      var selectedName;
+
       $uibM.open({
          templateUrl: 'Lobby/editLobbyDlg.template.html',
          scope: $scope
       }).result
       .then(function(lobbyName) {
-         // TODO: Post a lobby to server
-         $scope.lobbies.push({name: lobbyName});
+         selectedTitle = lobbyName;
+         return $http.post('/Lobbies', {name: lobbyName});
       })
       .then(function() {
-         // TODO: Pull all lobbies from server 
-         $scope.lobbies = $scope.lobbies;
+         return $http.get('/Lobbies');
+      })
+      .then(function(rsp) {
+         $scope.lobbies = rsp.data;
       })
       .catch(function(err) {
          if(err) {
-            nDlg.show($scope, "An error occurred...\n" + err, "Error");
+            nDlg.show($scope, "Another lobby already has title " +
+             selectedTitle + "\n" + err, "Error");
          }
       });
    };
