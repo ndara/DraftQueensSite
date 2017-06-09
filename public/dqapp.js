@@ -26,9 +26,6 @@ app.constant("errMap", {
 
 app.filter('tagError', ['errMap', function(errMap) {
    return function(err) {
-      if (err.params) console.log("err: " + err.params[0]);
-
-      if (err.params) err.params[0] = "myErrrr";
       return (err.params && err.params.length ? err.params[0] : "");
    };
 }]);
