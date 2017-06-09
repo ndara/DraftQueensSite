@@ -1,21 +1,36 @@
 <h1>
 Welcome to the Draft
 </h1>
+<div class="wrap">
+   <div class="floatleft">
+      <div ng-controller='tabController'>
+         <ul class="nav nav-tabs">
+            <li ng-class="{active: isSet(1)}">
+               <a ng-click="setTab(1)">My Team</a>
+            </li>
+            <li ng-class="{active: isSet(2)}">
+               <a ng-click="setTab(2)">Other Team</a>
+            </li>
+         </ul>
+      </div>
+   </div>
 
-<div ng-controller='tabController'>
-   <ul class="nav nav-pills nav-justified">
-      <li ng-class="{active: isSet(1)}">
-         <a ng-click="setTab(1)">Quarterbacks</a>
-      </li>
-      <li ng-class="{active: isSet(2)}">
-         <a ng-click="setTab(2)">Running Backs</a>
-      </li>
-      <li ng-class="{active: isSet(3)}">
-         <a ng-click="setTab(3)">Wide Receivers</a>
-      </li>
-      <li ng-class="{active: isSet(4)}">
-         <a ng-click="setTab(4)">Tight Ends</a>
-      </li>
-   </ul>
+   <div class="floatright">
+      <div ng-controller='tabController'>
+         <ul class="nav nav-pills nav-justified">
+            <li ng-class="{active: isSet(1)}">
+               <a ng-click="setTab(1)">Quarterbacks</a>
+            </li>
+            <li ng-class="{active: isSet(2)}">
+               <a ng-click="setTab(2)">Running Backs</a>
+            </li>
+            <li ng-class="{active: isSet(3)}">
+               <a ng-click="setTab(3)">Wide Receivers</a>
+            </li>
+            <li ng-class="{active: isSet(4)}">
+               <a ng-click="setTab(4)">Tight Ends</a>
+            </li>
+         </ul>
+      </div>
+   </div>
 </div>
-

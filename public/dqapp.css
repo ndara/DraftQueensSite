@@ -1,4 +1,6 @@
-.body
+body {
+   background-image: url('http://techware.pk/wp-content/uploads/2014/07/New-Website-Background3.jpg');
+}
 
 .short {
    display: inline-block;
