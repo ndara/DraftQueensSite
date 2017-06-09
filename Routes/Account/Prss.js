@@ -57,7 +57,7 @@ router.post('/', function(req, res) {
 
 router.get('/:id', function(req, res) {
    var vld = req.validator;
-   var baseQuery = 'select id, email, firstName, lastName, role, ' +
+   var baseQuery = 'select id, email, firstName, lastName, ' +
     'termsAccepted, whenRegistered from Person where id = ?';
 
    req.cnn.query(baseQuery, [req.params.id],

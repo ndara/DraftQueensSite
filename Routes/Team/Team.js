@@ -4,23 +4,23 @@ var router = Express.Router({caseSensitive: true});
 var async = require('async');
 var mysql = require('mysql');
 
-router.baseURL = '/Team';
+router.baseURL = '/Teams';
 
 router.get('/', function(req, res) {
-   var qry1 = 'select id, teamName, userId, lobbyId from Team where ' +
-    'teamName = ?';
-   var qry2 = 'select id, teamName, userId, lobbyId from Team where ' +
+   var qry1 = 'select id, name, userId, lobbyId from Team where ' +
+    'name = ?';
+   var qry2 = 'select id, name, userId, lobbyId from Team where ' +
     'userId = ?';
-   var qry3 = 'select id, teamName, userId, lobbyId from Team where ' +
-    'teamName = ? and userId = ?';
-   var noPrm = 'select id, teamName, userId, lobbyId from Team';
+   var qry3 = 'select id, name, userId, lobbyId from Team where ' +
+    'name = ? and userId = ?';
+   var noPrm = 'select id, name, userId, lobbyId from Team';
 
    if (req.query.name) {
-      if (req.query.id) {
-         req.cnn.chkQry(qry3, [req.query.name, req.query.id],
+      if (req.query.userId) {
+         req.cnn.chkQry(qry3, [req.query.name, req.query.userId],
           function(err, tms) {
              if (!err) {
-                res.status(200).json(tms);
+                res.status(200).json(tms).end();
              }
              req.cnn.release();
           });
@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
       else {
          req.cnn.chkQry(qry1, [req.query.name], function(err, tms) {
             if (!err) {
-                res.status(200).json(tms);
+                res.status(200).json(tms).end();
              }
              req.cnn.release();
          });
@@ -37,19 +37,19 @@ router.get('/', function(req, res) {
    }
 
    else {
-      if (req.query.id) {
-         req.cnn.chkQry(qry2, [req.query.id], function(err, tms) {
+      if (req.query.userId) {
+         req.cnn.chkQry(qry2, [req.query.userId], function(err, tms) {
             if (!err) {
-                res.status(200).json(tms);
+                res.status(200).json(tms).end();
              }
              req.cnn.release();
          });
       }
       
       else {
-         req.cnn.chkQry(qry4, null, function(err, tms) {
+         req.cnn.chkQry(noPrm, null, function(err, tms) {
             if (!err) {
-                res.status(200).json(tms);
+                res.status(200).json(tms).end();
              } 
              req.cnn.release();
          });
@@ -58,7 +58,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:teamId', function(req, res) {
-   var qry = 'select id, teamName, userId, lobbyId from Team where id = ?';
+   var qry = 'select id, name, userId, lobbyId from Team where id = ?';
    
    req.cnn.chkQry(qry, [req.params.teamId], function(err, tms) {
       if (tms.length) {
@@ -75,13 +75,36 @@ router.get('/:teamId', function(req, res) {
 
 router.get('/:teamId/Players', function(req, res) {
    var qry = 'select player1, player2, player3, player4, player5, player6, ' +
-    'player 7 from Team where id = ?';
+    'player7 from Team where id = ?';
+   var tmpArr = [];
 
    req.cnn.chkQry(qry, [req.params.teamId], function(err, plys) {
       if (plys.length) {
-         res.status(200).json([plys[0]["player1"], plys[0]["playe2"],
-          plys[0]["player3"], plys[0]["player4"], plys[0]["player5"],
-          plys[0]["player6"], plys[0]["player7"]]);
+         if (plys[0]["player1"]) {
+            tmpArr.push(plys[0]["player1"]);
+            if (plys[0]["player2"]) {
+               tmpArr.push(plys[0]["player2"]);
+               if (plys[0]["player3"]) {
+
+                  tmpArr.push(plys[0]["player3"]);
+                  if (plys[0]["player4"]) {
+                     tmpArr.push(plys[0]["player4"]);
+
+                     if (plys[0]["player5"]) {
+                        tmpArr.push(plys[0]["player5"]);
+                        if (plys[0]["player6"]) {
+                           tmpArr.push(plys[0]["player6"]);
+                           if (plys[0]["player7"]) {
+                              tmpArr.push(plys[0]["player7"]);
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+         
+         res.status(200).json(tmpArr);
       }
    
       else {
@@ -109,7 +132,7 @@ router.post('/:teamId/Players', function(req, res) {
 
    function(tms, fields, cb) {
       if (vld.check(tms.length, Tags.notFound, null, cb)
-       && vld.chkPrsOK(tms[0]["userId"], cb)
+       && vld.checkPrsOK(tms[0]["userId"], cb)
        && vld.check(!tms[0]["player7"],
        Tags.playerLimitReached, null, cb)) {
          tempTms = tms;

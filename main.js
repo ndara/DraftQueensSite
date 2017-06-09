@@ -36,9 +36,9 @@ app.use(CnnPool.router);
 
 app.use('/Prss', require('./Routes/Account/Prss.js'));
 app.use('/Ssns', require('./Routes/Account/Ssns.js'));
-app.use('/Player', require('./Routes/Player/Player.js'));
-app.use('/Lobby', require('./Routes/Lobby/Lobby.js'));
-app.use('/Team', require('./Routes/Team/Team.js'));
+app.use('/Players', require('./Routes/Player/Player.js'));
+app.use('/Lobbies', require('./Routes/Lobby/Lobby.js'));
+app.use('/Teams', require('./Routes/Team/Team.js'));
 
 app.delete('/DB', function(req, res) {
    var vld = req.validator;

@@ -17,7 +17,7 @@ Validator.Tags = {
    dupEmail: "dupEmail",            // Email duplicates an existing email
    noTerms: "noTerms",              // Acceptance of terms is required.
    noOldPwd: "noOldPwd",            // Change of password requires
-   dupName: "dupTitle",             // Name duplicate an existing name
+   dupName: "dupName",              // Name duplicate an existing name
    dupEnrollment: "dupEnrollment",  // Duplicate enrollment
    queryFailed: "queryFailed",      // Query failed to complete
    oldPwdMismatch: "oldPwdMismatch",// Old password does not match password
@@ -25,7 +25,7 @@ Validator.Tags = {
    draftInProgress: "draftInProgress",//Request invalid when draft in progress
    playerLimitReached: "playerLimitReached", //No more players can be added
    dupTeam: "dupTeam", //A team already exists for this user/lobby combination
-   fullLoby: "fullLoby", //A lobby has reached its user limit
+   fullLobby: "fullLobby",          //A lobby has reached its user limit
 };
 
 // Check |test|.  If false, add an error with tag and possibly empty array
