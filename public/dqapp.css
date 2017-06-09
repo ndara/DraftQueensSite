@@ -1,3 +1,5 @@
+.body
+
 .short {
    display: inline-block;
    text-align: center;
@@ -5,11 +7,11 @@
 }
 
 .register {
-   padding-left: 39%;
+   padding-left: 41%;
 }
 
 .login {
-   padding-left: 43%;
+   padding-left: 45%;
 }
 
 .lobby {
@@ -18,4 +20,23 @@
 
 .icon {
    margin-top: 7%;
+}
+
+.wrap {
+    width: 100%;
+    overflow:auto;
+}
+
+.floatleft {
+   float:left; 
+   width: 33%;
+   background:lightblue;
+   height: 1000px;
+}
+
+.floatright {
+   float: right;
+   background:pink;
+   width: 67%;
+   height: 1000px;
 }
