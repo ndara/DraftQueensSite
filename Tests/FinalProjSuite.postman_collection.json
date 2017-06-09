@@ -122,9 +122,7 @@
 				"c0e66303-90b3-7c15-53a2-725335a3d9b7",
 				"d4e32e05-6908-81a6-dd13-537cc864f282",
 				"91b85390-a9b5-a1b7-445c-2ab912313234",
-				"a484b538-5d7b-4063-6075-bb38f3434aec",
-				"7073e8ed-421e-9f45-7d80-7e304fc9d31c",
-				"1106bfe7-d94d-4489-b146-59855c9d0981"
+				"a484b538-5d7b-4063-6075-bb38f3434aec"
 			],
 			"owner": "1887431",
 			"collectionId": "da2b6ce5-82b9-0319-c53f-6d503fccb802"
@@ -231,7 +229,6 @@
 	"timestamp": 1496610609093,
 	"owner": "1887431",
 	"public": false,
-	"hasRequests": true,
 	"requests": [
 		{
 			"id": "0015d05d-847c-e324-5093-93754317c094",
@@ -394,25 +391,6 @@
 			"collectionId": "9ca44fdf-7a81-4b7b-6fb0-ebfc9f723412",
 			"rawModeData": "{\n  \"email\": \"test1@test\",\n  \"firstName\": \"Test1\",\n  \"lastName\": \"Test1\",\n  \"password\": \"test1\",\n  \"termsAccepted\": true\n}",
 			"folder": "9dc99f6e-7dba-b061-17d2-6c161e735260"
-		},
-		{
-			"id": "1106bfe7-d94d-4489-b146-59855c9d0981",
-			"headers": "Content-Type: application/json\n",
-			"url": "{{url}}/Players?lobby=3",
-			"preRequestScript": null,
-			"pathVariables": {},
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": "tests[\"status is 200\"] = responseCode.code === 200;\n\nvar jsonData = responseBody && JSON.parse(responseBody);\ntests[\"number of players is correct\"] = jsonData.length === 356; ",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497026867858,
-			"name": "Get Player invalid lobby",
-			"description": "",
-			"collectionId": "9ca44fdf-7a81-4b7b-6fb0-ebfc9f723412",
-			"responses": []
 		},
 		{
 			"folder": "666efac2-b6e4-6a90-3bfb-860d599712e1",
@@ -1023,25 +1001,6 @@
 			"responses": [],
 			"rawModeData": "{\n\t\"playerId\": 1\n}",
 			"folder": "74a0e0e7-d04c-e07c-5e1f-10bd0cbb2129"
-		},
-		{
-			"id": "7073e8ed-421e-9f45-7d80-7e304fc9d31c",
-			"headers": "Content-Type: application/json\n",
-			"url": "{{url}}/Players?position=QB&lobby=3",
-			"preRequestScript": null,
-			"pathVariables": {},
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": "tests[\"status is 200\"] = responseCode.code === 200;\n\nvar jsonData = responseBody && JSON.parse(responseBody);\ntests[\"number of players is correct\"] = jsonData.length === 37; ",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497026882627,
-			"name": "Get Player valid position invalid lobby",
-			"description": "",
-			"collectionId": "9ca44fdf-7a81-4b7b-6fb0-ebfc9f723412",
-			"responses": []
 		},
 		{
 			"id": "7164ca81-f542-648e-4d42-31e643ed8856",
