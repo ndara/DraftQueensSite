@@ -7,11 +7,11 @@
          {{lobby.name}}
       </button>
       <button type="button" class="btn btn-default btn-xs pull-right icon"
-       ng-show="true" ng-click="delete()">
+       ng-show="user && user.id === lobby.ownerId" ng-click="delete($index)">
          <span class="glyphicon glyphicon-trash"</span>
       </button>
       <button type="button" class="btn btn-default btn-xs pull-right icon"
-       ng-show="true" ng-click="edit()">
+       ng-show="user && user.id === lobby.ownerId" ng-click="edit($index)">
          <span class="glyphicon glyphicon-edit"</span>
       </button>
    </div>

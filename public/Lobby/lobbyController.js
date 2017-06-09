@@ -17,7 +17,7 @@ app.controller('lobbyController',
       })
       .then(function() {
          // TODO: Do a state.go to the proper lobby
-         $state.go('draft', ({lobbyId: lobbyId}));         
+         $state.go('draft', ({lobbyId: lobbyId}));
       })
       .catch(function(err) {
          if (err) {
@@ -52,4 +52,47 @@ app.controller('lobbyController',
       });
    };
 
+   $scope.edit = function(index) {
+      console.log("index: " + index);
+      $scope.dlgTitle = 'Edit Lobby Name';
+      $uibM.open({
+         templateUrl: 'Lobby/editLobbyDlg.template.html',
+         scope: $scope
+      }).result
+      .then(function(lobbyName) {
+         console.log("index1: " + index)
+         selectedTitle = lobbyName;
+         return $http.put('/Lobbies/' + lobbies[index].id, {name: lobbyName});
+      })
+      .then(function() {
+         return $http.get('/Lobbies');
+      })
+      .then(function(rsp) {
+         $scope.lobbies = rsp.data;
+      })
+      .catch(function(err) {
+         if (err) {
+            nDlg.show($scope, "Another lobby already has title " +
+             selectedTitle, "Error");
+         }
+      });
+   };
+
+   $scope.delete = function(index) {
+      $scope.dlgTitle = 'Delete Lobby';
+      nDlg.show($scope, "Are you sure you want to delete this lobby?",
+       "Confirm Delete", ["Delete", "Cancel"])
+      .then(function(btn) {
+         console.log("pressed: " + btn);
+         if (btn === "Delete") {
+            $http.delete("Lobbies/" + $scope.lobbies[index].id);
+            $scope.lobbies.splice(index, 1);
+         }
+      })
+      .catch(function(err) {
+         if (err) {
+            nDlg.show($scope, "Cannot delete when draft is in progress ", "Error");
+         }
+      });
+   };
 }]);
