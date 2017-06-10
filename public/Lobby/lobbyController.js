@@ -13,7 +13,7 @@ app.controller('lobbyController',
 
    $interval($scope.getLobbies, 2000);
 
-   
+
    $scope.joinLobby = function(lobby) {
       var selectedName;
       $scope.dlgTitle = "Join Lobby";
@@ -43,26 +43,34 @@ app.controller('lobbyController',
          .catch(function(err) {
             if (err) {
                $http.delete('/Lobbies/' + lobby.id);
-               nDlg.show($scope, selectedName + 
+               nDlg.show($scope, selectedName +
                 " already exists. Please join again with a unique name", "Error");
             }
          });
       }
    };
-   
+
    $scope.newLobby = function() {
       $scope.dlgTitle = "New Lobby";
-      var selectedName;
+      var selectedTeamName, selectedLobbyName, lobbyId;
 
       $uibM.open({
-         templateUrl: 'Lobby/editLobbyDlg.template.html',
+         templateUrl: 'Lobby/createLobbyDlg.template.html',
          scope: $scope
       }).result
-      .then(function(lobbyName) {
-         selectedTitle = lobbyName;
-         return $http.post('/Lobbies', {name: lobbyName});
+      .then(function(lobby) {
+         selectedLobbyName = lobby.lobbyName;
+         selectedTeamName = lobby.teamName;
+         return $http.post('/Lobbies', {name: lobby.lobbyName});
       })
-      .then(function() {
+      .then(function(response) {
+         var loc = response.headers().location.split('/');
+
+         lobbyId = loc[loc.length - 1];
+         return $http.post('/Lobbies/' + lobbyId + '/Teams',
+          {name: selectedTeamName});
+      })
+      .then(function(response) {
          return $http.get('/Lobbies');
       })
       .then(function(rsp) {
@@ -70,8 +78,9 @@ app.controller('lobbyController',
       })
       .catch(function(err) {
          if(err) {
-            nDlg.show($scope, "Another lobby already has title " +
-             selectedTitle + "\n" + err, "Error");
+            nDlg.show($scope, "Another lobby and/or team already has the " +
+             'name you specified', "Error");
+            $http.delete('/Lobbies/' + lobbyId);
          }
       });
    };
