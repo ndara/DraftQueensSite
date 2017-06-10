@@ -3,11 +3,11 @@
 <div class="list-group">
    <div class="list-group-item" ng-repeat="lobby in lobbies">
       <button class="btn btn-primary" type="button" style="margin-top:5px"
-       ng-click="joinLobby(lobby)" ng-show="!lobby.guestId">
+       ng-click="joinLobby(lobby)" ng-show="!lobby.guestId || lobby.guestId == user.id || lobby.ownerId == user.id">
          {{lobby.name}}
       </button>
       <button class="btn btn-danger" type="button" style="margin-top:5px"
-       ng-click="joinLobby(lobby)" ng-show="!!lobby.guestId">
+       ng-click="joinLobby(lobby)" ng-show="!!lobby.guestId && lobby.ownerId != user.id && lobby.guestId != user.id">
          {{lobby.name}}
       </button>
       <button type="button" class="btn btn-default btn-xs pull-right icon"
