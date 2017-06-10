@@ -1,9 +1,17 @@
 app.controller('lobbyController',
- ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'lobbies',
- function($scope, $state, $http, $uibM, nDlg, lobbies) {
+ ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'lobbies', '$interval',
+ function($scope, $state, $http, $uibM, nDlg, lobbies, $interval) {
 
-   //$scope.lobbies = [{name: "swag", id: 1}, {name: "yeet", id: 2}, {name: "swervefordaysbruh", id: 3}];
    $scope.lobbies = lobbies;
+
+   $scope.getLobbies = function() {
+      $http.get('/Lobbies')
+      .then(function(rsp) {
+         $scope.lobbies = rsp.data;
+      });
+   };
+
+   $interval($scope.getLobbies, 2000);
 
    $scope.joinLobby = function(lobbyId) {
       $scope.dlgTitle = "Join Lobby";
