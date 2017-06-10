@@ -53,14 +53,12 @@ app.controller('lobbyController',
    };
 
    $scope.edit = function(index) {
-      console.log("index: " + index);
       $scope.dlgTitle = 'Edit Lobby Name';
       $uibM.open({
          templateUrl: 'Lobby/editLobbyDlg.template.html',
          scope: $scope
       }).result
       .then(function(lobbyName) {
-         console.log("index1: " + index)
          selectedTitle = lobbyName;
          return $http.put('/Lobbies/' + lobbies[index].id, {name: lobbyName});
       })
