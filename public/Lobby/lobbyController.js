@@ -13,27 +13,43 @@ app.controller('lobbyController',
 
    $interval($scope.getLobbies, 2000);
 
-   $scope.joinLobby = function(lobbyId) {
+   
+   $scope.joinLobby = function(lobby) {
+      var selectedName;
       $scope.dlgTitle = "Join Lobby";
-      $uibM.open({
-         templateUrl: 'Lobby/joinLobbyDlg.template.html',
-         scope: $scope
-      }).result
-      .then(function(teamName) {
-         // TODO: Post a new team in lobbyId to the server
-         console.log(teamName + " playing in lobby " + lobbyId);
-      })
-      .then(function() {
-         // TODO: Do a state.go to the proper lobby
-         $state.go('draft', ({lobbyId: lobbyId}));
-      })
-      .catch(function(err) {
-         if (err) {
-            nDlg.show($scope, "An error occurred...\n" + err, "Error");
-         }
-      });
-   };
 
+      if ($scope.user.id === lobby.guestId || $scope.user.id === lobby.ownerId) {
+         $state.go('draft', ({lobbyId: lobby.id}));
+      }
+      else if (lobby.guestId) {
+         nDlg.show($scope, "Sorry, this lobby's full, please choose another", "Error");
+      }
+      else {
+         $uibM.open({
+            templateUrl: 'Lobby/joinLobbyDlg.template.html',
+            scope: $scope
+         }).result
+         .then(function(teamName) {
+            selectedName = teamName;
+            return $http.put('/Lobbies/' + lobby.id, {guestId: $scope.user.id});
+         })
+         .then(function() {
+            console.log(selectedName);
+            return $http.post('/Lobbies/' + lobby.id + '/Teams', {name: selectedName});
+         })
+         .then(function() {
+            $state.go('draft', ({lobbyId: lobby.id}));
+         })
+         .catch(function(err) {
+            if (err) {
+               $http.delete('/Lobbies/' + lobby.id);
+               nDlg.show($scope, selectedName + 
+                " already exists. Please join again with a unique name", "Error");
+            }
+         });
+      }
+   };
+   
    $scope.newLobby = function() {
       $scope.dlgTitle = "New Lobby";
       var selectedName;
