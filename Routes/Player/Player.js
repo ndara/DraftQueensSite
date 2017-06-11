@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
 
    if (req.query.position) {
       if (req.query.lobby) {
-         req.cnn.chkQry(queryLby, [req.params.lobby, req.params.position],
+         req.cnn.chkQry(queryLby, [req.query.lobby, req.query.position],
           function (err, plys){
              if (!err) {
                res.status(200).json(plys);
@@ -45,7 +45,7 @@ router.get('/', function(req, res) {
 
    else {
       if (req.query.lobby) {
-         req.cnn.chkQry(noPrmLby, [req.params.lobby], function(err, plys) {
+         req.cnn.chkQry(noPrmLby, [req.query.lobby], function(err, plys) {
             if (!err) {
                res.status(200).json(plys);
             }
