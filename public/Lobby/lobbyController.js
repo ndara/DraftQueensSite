@@ -34,7 +34,6 @@ app.controller('lobbyController',
             return $http.put('/Lobbies/' + lobby.id, {guestId: $scope.user.id});
          })
          .then(function() {
-            console.log(selectedName);
             return $http.post('/Lobbies/' + lobby.id + '/Teams', {name: selectedName});
          })
          .then(function() {

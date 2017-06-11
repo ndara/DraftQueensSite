@@ -32,3 +32,14 @@ app.filter('tagError', ['errMap', function(errMap) {
       return (err.params && err.params.length ? err.params[0] : "");
    };
 }]);
+
+app.directive('posTable', [function() {
+   return {
+      restrict: 'E',
+      templateUrl: 'Lobby/posTable.template.html',
+      scope: {
+         players: "=",
+         addPlayer: "&"
+      }
+   };
+}]);

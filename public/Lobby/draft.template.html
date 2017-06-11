@@ -2,21 +2,21 @@
 Welcome to the Draft
 </h1>
 <div class="wrap">
-   <div class="floatleft">
-      <div ng-controller='tabController'>
+   <div class="floatleft" ng-controller='tabController'>
+      <div>
          <ul class="nav nav-tabs">
             <li ng-class="{active: isSet(1)}">
-               <a ng-click="setTab(1)">My Team</a>
+               <a ng-click="setTab(1)">{{ownerTeam.name}}</a>
             </li>
             <li ng-class="{active: isSet(2)}">
-               <a ng-click="setTab(2)">Other Team</a>
+               <a ng-click="setTab(2)">{{guestTeam.name}}</a>
             </li>
          </ul>
       </div>
    </div>
 
-   <div class="floatright">
-      <div ng-controller='tabController'>
+   <div class="floatright" ng-controller='tabController'>
+      <div>
          <ul class="nav nav-pills nav-justified">
             <li ng-class="{active: isSet(1)}">
                <a ng-click="setTab(1)">Quarterbacks</a>
@@ -31,6 +31,28 @@ Welcome to the Draft
                <a ng-click="setTab(4)">Tight Ends</a>
             </li>
          </ul>
+      </div>
+      <div ng-show="isSet(1)">
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Height</th>
+               <th>Weight</th>
+               <th>NFL Team</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="qb in qbs" ng-click="addPlayer(qb)">
+                  <td>{{qb.fname}}</td>
+                  <td>{{qb.lname}}</td>
+                  <td>{{qb.height}}</td>
+                  <td>{{qb.weight}}</td>
+                  <td>{{qb.team}}</td>
+            </tbody>
+         </table> 
+      </div>
+      <div ng-show="isSet(2)">
+         <pos-table players="rbs" add-player="addPlayer(player)"></pos-table>
       </div>
    </div>
 </div>

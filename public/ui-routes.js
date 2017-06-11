@@ -36,6 +36,38 @@ app.config(['$stateProvider', '$urlRouterProvider',
       url: '/lobbies/{lobbyId}',
       templateUrl: 'Lobby/draft.template.html',
       controller: 'draftController',
-      //TODO Add resolve statements to grab necessary items from backend
+      resolve: {
+         teams: ['$q', '$http', '$stateParams', 
+          function($q, $http, $stateParams) {
+            return $http.get('/Lobbies/' + $stateParams.lobbyId + '/Teams')
+            .then(function(response) {
+               return response.data;
+            })
+         }],
+         qbs: ['$q', '$http', function($q, $http) {
+            return $http.get('/Players/?position=QB')
+            .then(function(response) {
+               return response.data;
+            }); 
+         }],
+         wrs: ['$q', '$http', function($q, $http) {
+            return $http.get('/Players/?position=WR')
+            .then(function(response) {
+               return response.data;
+            }); 
+         }],
+         rbs: ['$q', '$http', function($q, $http) {
+            return $http.get('/Players/?position=RB')
+            .then(function(response) {
+               return response.data;
+            }); 
+         }],
+         tes: ['$q', '$http', function($q, $http) {
+            return $http.get('/Players/?position=TE')
+            .then(function(response) {
+               return response.data;
+            }); 
+         }]
+      }
    });
 }]);
