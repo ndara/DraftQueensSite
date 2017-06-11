@@ -29,7 +29,7 @@ app.constant("errMap", {
 
 app.filter('tagError', ['errMap', function(errMap) {
    return function(err) {
-      return (err.params && err.params.length ? err.params[0] : "");
+      return (errMap[err.tag] + (err.params && err.params.length ? err.params[0] : ""));
    };
 }]);
 
