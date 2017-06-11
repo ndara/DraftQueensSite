@@ -43,3 +43,17 @@ app.directive('posTable', [function() {
       }
    };
 }]);
+
+app.directive('lobbySum', [function() {
+   return {
+      restrict: 'E',
+      templateUrl: 'Lobby/lobbySum.template.html',
+      scope: {
+         lobby: "=",
+         user: "=",
+         joinLobby: "&",
+         edit: "&",
+         delete: "&"
+      }
+   };
+}]);

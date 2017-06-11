@@ -49,10 +49,64 @@ Welcome to the Draft
                   <td>{{qb.weight}}</td>
                   <td>{{qb.team}}</td>
             </tbody>
-         </table> 
+         </table>
       </div>
       <div ng-show="isSet(2)">
-         <pos-table players="rbs" add-player="addPlayer(player)"></pos-table>
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Height</th>
+               <th>Weight</th>
+               <th>NFL Team</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="rb in rbs" ng-click="addPlayer(rb)">
+                  <td>{{rb.fname}}</td>
+                  <td>{{rb.lname}}</td>
+                  <td>{{rb.height}}</td>
+                  <td>{{rb.weight}}</td>
+                  <td>{{rb.team}}</td>
+            </tbody>
+         </table>
+      </div>
+      <div ng-show="isSet(3)">
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Height</th>
+               <th>Weight</th>
+               <th>NFL Team</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="wr in wrs" ng-click="addPlayer(wr)">
+                  <td>{{wr.fname}}</td>
+                  <td>{{wr.lname}}</td>
+                  <td>{{wr.height}}</td>
+                  <td>{{wr.weight}}</td>
+                  <td>{{wr.team}}</td>
+            </tbody>
+         </table>
+      </div>
+      <div ng-show="isSet(4)">
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Height</th>
+               <th>Weight</th>
+               <th>NFL Team</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="te in tes" ng-click="addPlayer(te)">
+                  <td>{{te.fname}}</td>
+                  <td>{{te.lname}}</td>
+                  <td>{{te.height}}</td>
+                  <td>{{te.weight}}</td>
+                  <td>{{te.team}}</td>
+            </tbody>
+         </table>
       </div>
    </div>
 </div>

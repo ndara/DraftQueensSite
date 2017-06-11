@@ -2,7 +2,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
  function($stateProvider, $router) {
 
    $router.otherwise("/");
-   
+
    $stateProvider
    .state('home', {
       url: '/',
@@ -18,7 +18,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
       url: '/register',
       templateUrl: 'Register/register.template.html',
       controller: 'registerController',
-   }) 
+   })
    .state('lobbies', {
       url: '/lobbies',
       templateUrl: 'Lobby/lobby.template.html',
@@ -37,36 +37,36 @@ app.config(['$stateProvider', '$urlRouterProvider',
       templateUrl: 'Lobby/draft.template.html',
       controller: 'draftController',
       resolve: {
-         teams: ['$q', '$http', '$stateParams', 
+         teams: ['$q', '$http', '$stateParams',
           function($q, $http, $stateParams) {
             return $http.get('/Lobbies/' + $stateParams.lobbyId + '/Teams')
             .then(function(response) {
                return response.data;
-            })
+            });
          }],
          qbs: ['$q', '$http', function($q, $http) {
             return $http.get('/Players/?position=QB')
             .then(function(response) {
                return response.data;
-            }); 
+            });
          }],
          wrs: ['$q', '$http', function($q, $http) {
             return $http.get('/Players/?position=WR')
             .then(function(response) {
                return response.data;
-            }); 
+            });
          }],
          rbs: ['$q', '$http', function($q, $http) {
             return $http.get('/Players/?position=RB')
             .then(function(response) {
                return response.data;
-            }); 
+            });
          }],
          tes: ['$q', '$http', function($q, $http) {
             return $http.get('/Players/?position=TE')
             .then(function(response) {
                return response.data;
-            }); 
+            });
          }]
       }
    });
