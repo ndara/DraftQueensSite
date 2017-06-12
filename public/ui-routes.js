@@ -37,6 +37,13 @@ app.config(['$stateProvider', '$urlRouterProvider',
       templateUrl: 'Lobby/draft.template.html',
       controller: 'draftController',
       resolve: {
+         turn: ['$q', '$http', '$stateParams',
+          function($q, $http, $stateParams) {
+            return $http.get('/Lobbies/' + $stateParams.lobbyId)
+            .then(function(response) {
+               return response.data.turn;
+            });
+         }],
          teams: ['$q', '$http', '$stateParams',
           function($q, $http, $stateParams) {
             return $http.get('/Lobbies/' + $stateParams.lobbyId + '/Teams')
@@ -44,7 +51,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
                return response.data;
             });
          }],
-         qbs: ['$q', '$http', function($q, $http) {
+         qbs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
             return $http.get('/Players/?position=QB')
             .then(function(response) {
                return response.data;

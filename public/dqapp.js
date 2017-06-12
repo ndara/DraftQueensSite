@@ -27,11 +27,56 @@ app.constant("errMap", {
    fullLobby: 'This lobby has reached its player limit'
 });
 
+app.constant("teamMap", {
+   CLE: 'Cleveland Browns',
+   CIN: 'Cincinnati Bengals',
+   GB:  'Green Bay Packers',
+   KC:  'Kansas City Chiefs',
+   JAC: 'Jacksonville Jaguars',
+   SF:  'San Francisco 49ers',
+   HOU: 'Houston Texans',
+   PIT: 'Pittsbirgh Steelers',
+   SD:  'San Diego Chargers',
+   CAR: 'Carolina Panthers',
+   ARI: 'Arizona Cardinals',
+   NO:  'New Orleans Saints',
+   OAK: 'Oakland Raiders',
+   NYG: 'New York Giants',
+   CHI: 'Chicago Bears',
+   BAL: 'Baltimore Ravens',
+   IND: 'Indianapolis Colts',
+   BAL: 'Baltimore Ravens',
+   TB:  'Tampa Bay Bucaneers',
+   WAS: 'Washington Redskins',
+   DAL: 'Dallas Cowboys',
+   ATL: 'Atlanta Falcons',
+   DET: 'Detroit Lions',
+   STL: 'St. Louis Rams',
+   DEN: 'Denver Broncos',
+   NYJ: 'New York Jets',
+   MIA: 'Miami Dolphins',
+   SEA: 'Seattle Seahawks',
+   PHI: 'Philidelphia Eagles',
+   NE:  'New England Patriots',
+   MIN: 'Minnesota Vikings',
+   HOU: 'Houston Texans',
+   BUF: 'Buffalo Bills',
+   TEN: 'Tennesse Titans'
+});
+
+app.filter('nflTeam', ['teamMap', function(teamMap) {
+   return function(team) {
+      return teamMap[team];
+   };
+}]);
+
 app.filter('tagError', ['errMap', function(errMap) {
    return function(err) {
       return (errMap[err.tag] + (err.params && err.params.length ? err.params[0] : ""));
    };
 }]);
+
+
 
 app.directive('posTable', [function() {
    return {

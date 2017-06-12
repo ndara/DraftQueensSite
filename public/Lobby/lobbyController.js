@@ -113,7 +113,6 @@ app.controller('lobbyController',
       nDlg.show($scope, "Are you sure you want to delete this lobby?",
        "Confirm Delete", ["Delete", "Cancel"])
       .then(function(btn) {
-         console.log("pressed: " + btn);
          if (btn === "Delete") {
             $http.delete("Lobbies/" + $scope.lobbies[index].id);
             $scope.lobbies.splice(index, 1);
