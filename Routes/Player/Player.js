@@ -12,12 +12,12 @@ router.get('/', function(req, res) {
    var noPrm = 'select id, fname, lname, pos1, height, weight, team ' +
     'from Player';
    var noPrmLby = 'select P.id, fname, lname, pos1, height, weight, P.team ' +
-    'from Player P join Team T on (T.player1 <> P.id) and (T.player2 <> ' + 
+    'from Player P join Team T on (T.player1 <> P.id) and (T.player2 <> ' +
     'P.id) and (T.player3 <> P.id) and (T.player4 <> P.id) and (T.player5 ' +
     '<> P.id) and (T.player6 <> P.id) and (T.player7 <> P.id) ' +
     'where T.lobbyId = ?';
    var queryLby = 'select P.id, fname, lname, pos1, height, weight, P.team ' +
-    'from Player P join Team T on (T.player1 <> P.id) and (T.player2 <> ' + 
+    'from Player P join Team T on (T.player1 <> P.id) and (T.player2 <> ' +
     'P.id) and (T.player3 <> P.id) and (T.player4 <> P.id) and (T.player5 ' +
     '<> P.id) and (T.player6 <> P.id) and (T.player7 <> P.id) where ' +
     'T.lobbyId = ? and pos1 = ?';
@@ -66,14 +66,14 @@ router.get('/', function(req, res) {
 
 router.get('/:playerId', function(req, res) {
    var query = 'select id, fname, lname, pos1, height, weight, team ' +
-    'from Player where id = ?'
-   
+    'from Player where id = ?';
+
    req.cnn.chkQry(query, [req.params.playerId],
    function(err, plys) {
       if (plys.length) {
          res.status(200).json(plys[0]);
       }
-         
+
       else {
          req.validator.check(false, Tags.notFound, null);
       }

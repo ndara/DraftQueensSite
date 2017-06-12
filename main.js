@@ -20,12 +20,12 @@ app.use(Session.router);
 
 app.use(function(req, res, next) {
    console.log(req.path);
-   
+
    if (req.session || (req.method === 'POST' &&
     (req.path === '/Prss' || req.path === '/Ssns'))) {
       req.validator = new Validator(req, res);
       next();
-   } 
+   }
 
    else {
       res.status(401).end();
@@ -93,9 +93,10 @@ app.use(function(req, res, next) {
 
 (function() {
    var args = process.argv.slice(2);
+   var port;
 
    if (args[0] === '-p' && !isNaN(args[1])) {
-      var port = parseInt(args[1]);
+      port = parseInt(args[1]);
    }
    else {
       throw new Error('You did not support the -p flag for port number');

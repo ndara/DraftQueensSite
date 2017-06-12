@@ -45,7 +45,6 @@ app.constant("teamMap", {
    CHI: 'Chicago Bears',
    BAL: 'Baltimore Ravens',
    IND: 'Indianapolis Colts',
-   BAL: 'Baltimore Ravens',
    TB:  'Tampa Bay Bucaneers',
    WAS: 'Washington Redskins',
    DAL: 'Dallas Cowboys',
@@ -59,7 +58,6 @@ app.constant("teamMap", {
    PHI: 'Philidelphia Eagles',
    NE:  'New England Patriots',
    MIN: 'Minnesota Vikings',
-   HOU: 'Houston Texans',
    BUF: 'Buffalo Bills',
    TEN: 'Tennesse Titans'
 });

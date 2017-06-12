@@ -41,44 +41,44 @@ app.controller('draftController',
 
    $scope.isOwner = function() {
       return $scope.user.id === $scope.ownerTeam.userId;
-   }
+   };
 
    $scope.isGuest = function() {
       return $scope.user.id === $scope.guestTeam.userId;
-   }
+   };
 
    $scope.isMyTurn = function() {
-      return ($scope.isOwner() && $scope.isOwnerTurn()) || ($scope.isGuest() && $scope.isGuestTurn())
-   }
+      return ($scope.isOwner() && $scope.isOwnerTurn()) || ($scope.isGuest() && $scope.isGuestTurn());
+   };
 
    $scope.stopUpdateDraft = function() {
       if (angular.isDefined($scope.loopUpdateDraft)) {
          $interval.cancel($scope.loopUpdateDraft);
       }
-   }
+   };
 
    $scope.updateDraft = function() {
       $http.get('/Lobbies/' + $stateParams.lobbyId)
       .then(function(rsp) {
          $scope.turn = rsp.data.turn;
-        
+
          if ($scope.isDraftComplete()) {
             $scope.turn = null;
             $scope.stopUpdateDraft();
          }
-         return $http.get('/Players/?position=QB')
+         return $http.get('/Players/?position=QB&lobby=' + $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.qbs = rsp.data;
-         return $http.get('Players/?position=RB')
+         return $http.get('Players/?position=RB&lobby=' + $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.rbs = rsp.data;
-         return $http.get('Players/?position=WR')
+         return $http.get('Players/?position=WR&lobby=' + $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.wrs = rsp.data;
-         return $http.get('Players/?position=TE')
+         return $http.get('Players/?position=TE&lobby=' + $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.tes = rsp.data;
@@ -91,14 +91,14 @@ app.controller('draftController',
    };
 
    $scope.isDraftComplete = function() {
-      return $scope.turn > 0 || $scope.turn === null;
-   }
+      return $scope.turn > 13 || $scope.turn === null;
+   };
 
    $scope.loopUpdateDraft = $interval($scope.updateDraft, 500);
 
    $scope.addPlayer = function(player) {
       if ($scope.isDraftComplete()) {
-         nDlg.show($scope, "This draft is complete. No more players may " + 
+         nDlg.show($scope, "This draft is complete. No more players may " +
           "be selected. Please join or create a new lobby", "Error");
       }
       else if ($scope.isMyTurn()) {
@@ -120,7 +120,7 @@ app.controller('draftController',
          });
       }
       else  {
-         nDlg.show($scope, "Please wait. It's not your turn yet. " + 
+         nDlg.show($scope, "Please wait. It's not your turn yet. " +
           "Your team name border will change to green when your " +
           "opponent has drafted", "Error");
       }
