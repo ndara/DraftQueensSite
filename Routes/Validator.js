@@ -86,7 +86,6 @@ Validator.prototype.checkPrsOK = function(prsId, cb) {
 };
 
 Validator.prototype.checkPrssOK = function(prsId, prsId2, cb) {
-
    return this.check(this.session &&
     (this.session.id == prsId || this.session.id == prsId2),
     Validator.Tags.noPermission, null, cb);

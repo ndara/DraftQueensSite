@@ -6,7 +6,7 @@ var router = Express.Router({caseSensitive: true});
 
 router.baseURL = '/Ssns';
 
-/*router.get('/', function(req, res) {
+router.get('/', function(req, res) {
    var body = [];
    var ssn;
 
@@ -19,22 +19,22 @@ router.baseURL = '/Ssns';
    res.status(200).json(body);
 
    req.cnn.release();
-});*/
+});
 
 router.post('/', function(req, res) {
    var cookie;
    var cnn = req.cnn;
 
    cnn.query('select * from Person where email = ?', [req.body.email],
-   function(err, result) {
-      if (req.validator.check(result.length && result[0].password ===
-       req.body.password, Tags.badLogin)) {
-         cookie = ssnUtil.makeSession(result[0], res);
-         res.location(router.baseURL + '/' + cookie).status(200).end();
-      }
+    function(err, result) {
+       if (req.validator.check(result.length && result[0].password ===
+        req.body.password, Tags.badLogin)) {
+          cookie = ssnUtil.makeSession(result[0], res);
+          res.location(router.baseURL + '/' + cookie).status(200).end();
+       }
 
-      cnn.release();
-   });
+       cnn.release();
+    });
 });
 
 router.delete('/:cookie', function(req, res, next) {
@@ -56,7 +56,7 @@ router.get('/:cookie', function(req, res, next) {
       if (vld.checkPrsOK(ssnUtil.sessions[cookie].id)) {
          ssn = ssnUtil.sessions[cookie];
          res.status(200)
-         .json({cookie: cookie, prsId: ssn.id, loginTime: ssn.loginTime});
+          .json({cookie: cookie, prsId: ssn.id, loginTime: ssn.loginTime});
       }
    }
 

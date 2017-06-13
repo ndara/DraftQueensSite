@@ -6,7 +6,7 @@ var mysql = require('mysql');
 
 router.baseURL = '/Prss';
 
-/*router.get('/', function(req, res) {
+router.get('/', function(req, res) {
    var handler = function(err, prsArr) {
       res.json(prsArr);
       req.cnn.release();
@@ -20,7 +20,7 @@ router.baseURL = '/Prss';
    else {
       req.cnn.chkQry('select id, email from Person', handler);
    }
-});*/
+});
 
 router.post('/', function(req, res) {
    var vld = req.validator;  // Shorthands
@@ -66,7 +66,7 @@ router.get('/:id', function(req, res) {
       if (vld.check(prsArr.length, Tags.notFound)) {
          for (prs in prsArr) {
 
-            if (prsArr[prs]["termsAccepted"] && 
+            if (prsArr[prs]["termsAccepted"] &&
              prsArr[prs]["whenRegistered"]) {
                prsArr[prs]["termsAccepted"] = prsArr[prs]["termsAccepted"]
                 .getTime();

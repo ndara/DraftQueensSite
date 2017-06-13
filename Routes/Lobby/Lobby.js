@@ -40,6 +40,7 @@ router.post('/', function(req, res) {
    var cnn = req.cnn;
    var nameQuery = 'select * from Lobby where name = ?';
    var insertQuery = "insert into Lobby (name, ownerId) values (?, ?)";
+
    async.waterfall([
    function(cb) {
       if (vld.hasFields(body, ["name"], cb) 
@@ -89,6 +90,7 @@ var noPropReturner = function(req, res) {
       req.cnn.release();
       return false;
    }
+
    return true;
 };
 
@@ -158,7 +160,7 @@ router.put('/:lobbyId', function(req, res) {
             req.cnn.chkQry('update Lobby set guestId = ? where id = ?',
              [req.body.guestId, id], cb);
          }
-         else { //need this????
+         else {
             cb();
          }
       }],
@@ -189,18 +191,18 @@ router.delete('/:lobbyId', function(req, res) {
              req.cnn.release();
           }
 
-          else if (!vld.check(lbys[0]["turn"] < 0 || lbys[0]["turn"] > 13)
-           , Tags.draftInProgress, null) {
+          else if (!vld.check(lbys[0]["turn"] < 0 || lbys[0]["turn"] > 13),
+           Tags.draftInProgress, null) {
              req.cnn.release();
           }
 
           else {
              if (req.session.id === lbys[0]["ownerId"]) {
                 cnn.chkQry('delete from Lobby where id = ?', 
-                [req.params.lobbyId], function() {
-                    cnn.chkQry('delete from Team where lobbyId = ?',
-                     [req.params.lobbyId], releaseCb);
-                });
+                 [req.params.lobbyId], function() {
+                     cnn.chkQry('delete from Team where lobbyId = ?',
+                      [req.params.lobbyId], releaseCb);
+                 });
              }
 
              else if (req.session.id === lbys[0]["guestId"]) {
@@ -239,7 +241,7 @@ router.post('/:lobbyId/Teams', function(req, res) {
       if (vld.check(lby.length, Tags.notFound, null, cb)
        && vld.checkPrssOK(lby[0]["ownerId"], lby[0]["guestId"], cb)) {
          cnn.chkQry('select * from Team where lobbyId = ? and userId = ?',
-          [req.params.lobbyId, req.session.id], cb); //old: lby[0]["ownerId"]
+          [req.params.lobbyId, req.session.id], cb);
       }
    },
 
@@ -252,12 +254,12 @@ router.post('/:lobbyId/Teams', function(req, res) {
    function(dupName, fields, cb) {
       if (vld.check(!dupName.length, Tags.dupName, null, cb)) {
          cnn.chkQry('insert into Team (name, userId, lobbyId) '
-          + 'values (? , ?, ?)', [req.body.name, req.session.id, 
+          + 'values (? , ?, ?)', [req.body.name, req.session.id,
           req.params.lobbyId], cb);
       }
    },
 
-   function(insRes, fields, cb) { //right way of doing this???
+   function(insRes, fields, cb) {
       res.location(router.baseURL + '/' + insRes.insertId).end();
       cb();
    }],
