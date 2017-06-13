@@ -1,7 +1,8 @@
 app.controller('draftController',
  ['$scope', '$state', '$http', '$uibModal', 'notifyDlg',
  'qbs', 'wrs', 'rbs', 'tes', 'teams', '$stateParams', '$interval', 'turn',
- function($scope, $state, $http, $uibM, nDlg, qbs, wrs, rbs, tes, teams, $stateParams, $interval, turn) {
+ function($scope, $state, $http, $uibM, nDlg, qbs, wrs, rbs, tes, teams,
+  $stateParams, $interval, turn) {
 
    $scope.qbs = qbs;
    $scope.wrs = wrs;
@@ -49,7 +50,8 @@ app.controller('draftController',
    };
 
    $scope.isMyTurn = function() {
-      return ($scope.isOwner() && $scope.isOwnerTurn()) || ($scope.isGuest() && $scope.isGuestTurn());
+      return ($scope.isOwner() && $scope.isOwnerTurn())
+       || ($scope.isGuest() && $scope.isGuestTurn());
    };
 
    $scope.stopUpdateDraft = function() {
@@ -133,19 +135,23 @@ app.controller('draftController',
             $scope.turn = null;
             $scope.stopUpdateDraft();
          }
-         return $http.get('/Players/?position=QB&lobby=' + $stateParams.lobbyId);
+         return $http.get('/Players/?position=QB&lobby=' +
+          $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.qbs = rsp.data;
-         return $http.get('Players/?position=RB&lobby=' + $stateParams.lobbyId);
+         return $http.get('Players/?position=RB&lobby=' +
+          $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.rbs = rsp.data;
-         return $http.get('Players/?position=WR&lobby=' + $stateParams.lobbyId);
+         return $http.get('Players/?position=WR&lobby=' +
+          $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.wrs = rsp.data;
-         return $http.get('Players/?position=TE&lobby=' + $stateParams.lobbyId);
+         return $http.get('Players/?position=TE&lobby=' +
+          $stateParams.lobbyId);
       })
       .then(function(rsp) {
          $scope.tes = rsp.data;
@@ -153,8 +159,6 @@ app.controller('draftController',
       })
       .then(function(rsp) {
          $scope.updateTeamPlayers($scope.ownerTeam, rsp.data);
-         // $scope.ownerTeam.players = rsp.data;
-         // console.log("number of players on owner team: " + rsp.data.length)
 
          if ($scope.guestTeam) {
             return $http.get('Teams/' + $scope.guestTeam.id + '/Players');
@@ -185,14 +189,17 @@ app.controller('draftController',
       else if ($scope.isMyTurn()) {
          $scope.dlgTitle = 'Draft Player';
 
-         nDlg.show($scope, "Are you sure you want to draft " + player.fname + " " + player.lname,
+         nDlg.show($scope, "Are you sure you want to draft " + player.fname +
+          " " + player.lname,
           "Confirm selection", ["Draft!", "Cancel"])
          .then(function(btn) {
             if (btn == "Draft!") {
                if ($scope.isOwner()) {
-                  return $http.post("/Teams/" + $scope.ownerTeam.id + "/Players", {playerId: player.id});
+                  return $http.post("/Teams/" + $scope.ownerTeam.id + "/Players",
+                   {playerId: player.id});
                } else {
-                  return $http.post("/Teams/" + $scope.guestTeam.id + "/Players", {playerId: player.id});
+                  return $http.post("/Teams/" + $scope.guestTeam.id + "/Players",
+                   {playerId: player.id});
                }
             }
          })

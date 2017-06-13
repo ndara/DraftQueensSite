@@ -1,7 +1,6 @@
-app.controller('registerController',
- ['$scope', '$rootScope', '$state', '$http', 'notifyDlg', 'terms', '$interval',
+app.controller('registerController', ['$scope', '$rootScope', 
+ '$state', '$http', 'notifyDlg', 'terms', '$interval',
  function($scope, $rootScope, $state, $http, nDlg, terms, $interval) {
-
    $scope.errors = [];
 
    $scope.showTerms = function() {
@@ -11,6 +10,7 @@ app.controller('registerController',
 
    $scope.registerUser = function() {
       $scope.lang = $rootScope.lang;
+
       $http.post("Prss", $scope.user)
       .then(function() {
          return nDlg.show($scope, "Registration succeeded.  Login " +
@@ -20,12 +20,14 @@ app.controller('registerController',
       .then(function(btn) {
          if (btn === "Yes")
             return $http.post("Ssns", $scope.user);
+
          else {
             $state.go('home');
          }
       })
       .then(function(response) {
          var location = response.headers().location.split('/');
+         
          return $http.get("Ssns/" + location[location.length - 1]);
       })
       .then(function(response) {

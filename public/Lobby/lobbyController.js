@@ -1,5 +1,6 @@
 app.controller('lobbyController',
- ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'lobbies', '$interval',
+ ['$scope', '$state', '$http', '$uibModal', 'notifyDlg',
+ 'lobbies', '$interval',
  function($scope, $state, $http, $uibM, nDlg, lobbies, $interval) {
 
    $scope.lobbies = lobbies;
@@ -18,11 +19,13 @@ app.controller('lobbyController',
       var selectedName;
       $scope.dlgTitle = "Join Lobby";
 
-      if ($scope.user.id === lobby.guestId || $scope.user.id === lobby.ownerId) {
+      if ($scope.user.id === lobby.guestId
+       || $scope.user.id === lobby.ownerId) {
          $state.go('draft', ({lobbyId: lobby.id}));
       }
       else if (lobby.guestId) {
-         nDlg.show($scope, "Sorry, this lobby's full, please choose another", "Error");
+         nDlg.show($scope,
+          "Sorry, this lobby's full, please choose another", "Error");
       }
       else {
          $uibM.open({
@@ -31,10 +34,12 @@ app.controller('lobbyController',
          }).result
          .then(function(teamName) {
             selectedName = teamName;
-            return $http.put('/Lobbies/' + lobby.id, {guestId: $scope.user.id});
+            return $http.put('/Lobbies/' + lobby.id,
+             {guestId: $scope.user.id});
          })
          .then(function() {
-            return $http.post('/Lobbies/' + lobby.id + '/Teams', {name: selectedName});
+            return $http.post('/Lobbies/' + lobby.id + '/Teams',
+             {name: selectedName});
          })
          .then(function() {
             $state.go('draft', ({lobbyId: lobby.id}));
@@ -43,7 +48,8 @@ app.controller('lobbyController',
             if (err) {
                $http.delete('/Lobbies/' + lobby.id);
                nDlg.show($scope, selectedName +
-                " already exists. Please join again with a unique name", "Error");
+                " already exists. Please join again with a unique name",
+                "Error");
             }
          });
       }
@@ -120,7 +126,8 @@ app.controller('lobbyController',
       })
       .catch(function(err) {
          if (err) {
-            nDlg.show($scope, "Cannot delete when draft is in progress ", "Error");
+            nDlg.show($scope, "Cannot delete when draft is in progress ",
+             "Error");
          }
       });
    };

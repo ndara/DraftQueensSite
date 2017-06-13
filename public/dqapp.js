@@ -70,7 +70,8 @@ app.filter('nflTeam', ['teamMap', function(teamMap) {
 
 app.filter('tagError', ['errMap', function(errMap) {
    return function(err) {
-      return (errMap[err.tag] + (err.params && err.params.length ? err.params[0] : ""));
+      return (errMap[err.tag]
+       + (err.params && err.params.length ? err.params[0] : ""));
    };
 }]);
 

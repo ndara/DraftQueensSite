@@ -51,30 +51,38 @@ app.config(['$stateProvider', '$urlRouterProvider',
                return response.data;
             });
          }],
-         qbs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
-            return $http.get('/Players/?position=QB&lobby=' + $stateParams.lobbyId)
-            .then(function(response) {
-               return response.data;
-            });
-         }],
-         wrs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
-            return $http.get('/Players/?position=WR&lobby=' + $stateParams.lobbyId)
-            .then(function(response) {
-               return response.data;
-            });
-         }],
-         rbs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
-            return $http.get('/Players/?position=RB&lobby=' + $stateParams.lobbyId)
-            .then(function(response) {
-               return response.data;
-            });
-         }],
-         tes: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
-            return $http.get('/Players/?position=TE&lobby=' + $stateParams.lobbyId)
-            .then(function(response) {
-               return response.data;
-            });
-         }]
+         qbs: ['$q', '$http', '$stateParams',
+          function($q, $http, $stateParams) {
+             return $http.get('/Players/?position=QB&lobby=' +
+              $stateParams.lobbyId)
+             .then(function(response) {
+                return response.data;
+             });
+          }],
+         wrs: ['$q', '$http', '$stateParams',
+          function($q, $http, $stateParams) {
+             return $http.get('/Players/?position=WR&lobby=' +
+              $stateParams.lobbyId)
+             .then(function(response) {
+                return response.data;
+             });
+          }],
+         rbs: ['$q', '$http', '$stateParams',
+          function($q, $http, $stateParams) {
+             return $http.get('/Players/?position=RB&lobby=' +
+              $stateParams.lobbyId)
+             .then(function(response) {
+                return response.data;
+             });
+          }],
+         tes: ['$q', '$http', '$stateParams',
+          function($q, $http, $stateParams) {
+             return $http.get('/Players/?position=TE&lobby=' +
+              $stateParams.lobbyId)
+             .then(function(response) {
+                return response.data;
+             });
+          }]
       }
    });
 }]);
