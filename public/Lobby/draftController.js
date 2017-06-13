@@ -41,16 +41,11 @@ app.controller('draftController',
    };
 
    $scope.isOwner = function() {
-      console.log("user: " + $scope.user.id);
-      console.log("owner: " + $scope.ownerTeam.userId);
       return $scope.user.id === $scope.ownerTeam.userId;
    };
 
    $scope.isGuest = function() {
-      console.log("user: " + $scope.user.id);
-      if ($scope.guestTeam)
-         console.log("guest: " + ($scope.guestTeam && $scope.guestTeam.userId));
-      return $scope.user.id === $scope.guestTeam && $scope.guestTeam.userId;
+      return $scope.user.id === ($scope.guestTeam && $scope.guestTeam.userId);
    };
 
    $scope.isMyTurn = function() {
