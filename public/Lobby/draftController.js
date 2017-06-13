@@ -7,6 +7,7 @@ app.controller('draftController',
    $scope.wrs = wrs;
    $scope.rbs = rbs;
    $scope.tes = tes;
+   $scope.numPlayers = 7;
 
    $scope.ownerTeam = teams[0];
    $scope.guestTeam = teams[1];
@@ -40,11 +41,16 @@ app.controller('draftController',
    };
 
    $scope.isOwner = function() {
+      console.log("user: " + $scope.user.id);
+      console.log("owner: " + $scope.ownerTeam.userId);
       return $scope.user.id === $scope.ownerTeam.userId;
    };
 
    $scope.isGuest = function() {
-      return $scope.user.id === $scope.guestTeam.userId;
+      console.log("user: " + $scope.user.id);
+      if ($scope.guestTeam)
+         console.log("guest: " + ($scope.guestTeam && $scope.guestTeam.userId));
+      return $scope.user.id === $scope.guestTeam && $scope.guestTeam.userId;
    };
 
    $scope.isMyTurn = function() {
@@ -54,6 +60,72 @@ app.controller('draftController',
    $scope.stopUpdateDraft = function() {
       if (angular.isDefined($scope.loopUpdateDraft)) {
          $interval.cancel($scope.loopUpdateDraft);
+      }
+   };
+
+   $scope.updateTeamPlayers = function(team, plyIds) {
+      var plys = [];
+
+      if (plyIds[0]) {
+         $http.get('/Players/' + plyIds[0])
+         .then(function(rsp) {
+            plys.push(rsp.data);
+
+            if (plyIds[1]) {
+               return $http.get('/Players/' + plyIds[1]);
+            }
+         })
+         .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+
+               if (plyIds[2]) {
+                  return $http.get('/Players/' + plyIds[2]);
+               }
+            }
+         })
+         .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+
+               if (plyIds[3]) {
+                  return $http.get('/Players/' + plyIds[3]);
+               }
+            }
+         })
+         .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+
+               if (plyIds[4]) {
+                  return $http.get('/Players/' + plyIds[4]);
+               }
+            }
+         })
+         .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+
+               if (plyIds[5]) {
+                  return $http.get('/Players/' + plyIds[5]);
+               }
+            }
+         })
+         .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+
+               if (plyIds[6]) {
+                  return $http.get('/Players/' + plyIds[6]);
+               }
+            }
+         })
+         .then(function(rsp) {
+            team.players = plys;
+         })
+         .catch(function(err) {
+            console.log('err: ' + err.data);
+         });
       }
    };
 
@@ -82,6 +154,20 @@ app.controller('draftController',
       })
       .then(function(rsp) {
          $scope.tes = rsp.data;
+         return $http.get('Teams/' + $scope.ownerTeam.id + '/Players');
+      })
+      .then(function(rsp) {
+         $scope.updateTeamPlayers($scope.ownerTeam, rsp.data);
+         // $scope.ownerTeam.players = rsp.data;
+         // console.log("number of players on owner team: " + rsp.data.length)
+
+         if ($scope.guestTeam) {
+            return $http.get('Teams/' + $scope.guestTeam.id + '/Players');
+         }
+      })
+      .then(function(rsp) {
+         if ($scope.guestTeam)
+            $scope.updateTeamPlayers($scope.guestTeam, rsp.data);
       })
       .catch(function(err) {
          if (err) {
@@ -107,10 +193,12 @@ app.controller('draftController',
          nDlg.show($scope, "Are you sure you want to draft " + player.fname + " " + player.lname,
           "Confirm selection", ["Draft!", "Cancel"])
          .then(function(btn) {
-            if ($scope.isOwner()) {
-               return $http.post("/Teams/" + $scope.ownerTeam.id + "/Players", {playerId: player.id});
-            } else {
-               return $http.post("/Teams/" + $scope.guestTeam.id + "/Players", {playerId: player.id});
+            if (btn == "Draft!") {
+               if ($scope.isOwner()) {
+                  return $http.post("/Teams/" + $scope.ownerTeam.id + "/Players", {playerId: player.id});
+               } else {
+                  return $http.post("/Teams/" + $scope.guestTeam.id + "/Players", {playerId: player.id});
+               }
             }
          })
          .catch(function(err) {

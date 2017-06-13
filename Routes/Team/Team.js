@@ -45,12 +45,12 @@ router.get('/', function(req, res) {
              req.cnn.release();
          });
       }
-      
+
       else {
          req.cnn.chkQry(noPrm, null, function(err, tms) {
             if (!err) {
                 res.status(200).json(tms).end();
-             } 
+             }
              req.cnn.release();
          });
       }
@@ -59,12 +59,12 @@ router.get('/', function(req, res) {
 
 router.get('/:teamId', function(req, res) {
    var qry = 'select id, name, userId, lobbyId from Team where id = ?';
-   
+
    req.cnn.chkQry(qry, [req.params.teamId], function(err, tms) {
       if (tms.length) {
          res.status(200).json(tms[0]);
       }
-      
+
       else {
          req.validator.check(false, Tags.notFound, null);
       }
@@ -103,10 +103,10 @@ router.get('/:teamId/Players', function(req, res) {
                }
             }
          }
-         
+
          res.status(200).json(tmpArr);
       }
-   
+
       else {
          req.validator.check(false, Tags.notFound, null);
       }
@@ -121,7 +121,7 @@ router.post('/:teamId/Players', function(req, res) {
    var cnn = req.cnn;
    var tempTms = null;
    var whichInsert = null;
-   
+
    async.waterfall([
    function(cb) {
       if (vld.hasFields(body, ["playerId"], cb)) {
@@ -142,26 +142,26 @@ router.post('/:teamId/Players', function(req, res) {
    },
 
    function(upd, fields, cb) {
-      if (!tempTms[0]["player1"]) 
+      if (!tempTms[0]["player1"])
          whichInsert = "1";
-      else if (!tempTms[0]["player2"]) 
+      else if (!tempTms[0]["player2"])
          whichInsert = "2";
-      else if (!tempTms[0]["player3"]) 
+      else if (!tempTms[0]["player3"])
          whichInsert = "3";
 
-      else if (!tempTms[0]["player4"]) 
+      else if (!tempTms[0]["player4"])
          whichInsert = "4";
-      else if (!tempTms[0]["player5"]) 
+      else if (!tempTms[0]["player5"])
          whichInsert = "5";
 
-      else if (!tempTms[0]["player5"]) 
+      else if (!tempTms[0]["player5"])
          whichInsert = "5";
-      else if (!tempTms[0]["player6"]) 
+      else if (!tempTms[0]["player6"])
          whichInsert = "6";
-      else 
+      else
          whichInsert = "7";
 
-      cnn.chkQry('select * from Player where id = ?', 
+      cnn.chkQry('select * from Player where id = ?',
        [body.playerId], cb);
    },
 
@@ -183,4 +183,3 @@ router.post('/:teamId/Players', function(req, res) {
 });
 
 module.exports = router;
-

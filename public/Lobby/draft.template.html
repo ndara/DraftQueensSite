@@ -14,11 +14,34 @@ Welcome to the Draft
          </ul>
       </div>
       <div ng-show="isSet(1)">
-         <div ng-repeat="">
-
-         </div>
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Position</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="p in ownerTeam.players">
+                  <td>{{p.fname}}</td>
+                  <td>{{p.lname}}</td>
+                  <td>{{p.position}}</td>
+            </tbody>
+         </table>
       </div>
       <div ng-show="isSet(2)">
+         <table class="table table-striped">
+            <thead>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Position</th>
+            </thead>
+            <tbody>
+               <tr ng-repeat="p in guestTeam.players">
+                  <td>{{p.fname}}</td>
+                  <td>{{p.lname}}</td>
+                  <td>{{p.pos1}}</td>
+            </tbody>
+         </table>
       </div>
       <div ng-if="isDraftComplete()">
          <h3> This draft is complete! </h3>

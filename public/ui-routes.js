@@ -48,35 +48,30 @@ app.config(['$stateProvider', '$urlRouterProvider',
           function($q, $http, $stateParams) {
             return $http.get('/Lobbies/' + $stateParams.lobbyId + '/Teams')
             .then(function(response) {
-               console.log("number of teams: " + response.data.length);
                return response.data;
             });
          }],
          qbs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
             return $http.get('/Players/?position=QB&lobby=' + $stateParams.lobbyId)
             .then(function(response) {
-               console.log("number of qbs: " + response.data.length);
                return response.data;
             });
          }],
          wrs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
             return $http.get('/Players/?position=WR&lobby=' + $stateParams.lobbyId)
             .then(function(response) {
-               console.log("number of wrs: " + response.data.length);
                return response.data;
             });
          }],
          rbs: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
             return $http.get('/Players/?position=RB&lobby=' + $stateParams.lobbyId)
             .then(function(response) {
-               console.log("number of rbs: " + response.data.length);
                return response.data;
             });
          }],
          tes: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
             return $http.get('/Players/?position=TE&lobby=' + $stateParams.lobbyId)
             .then(function(response) {
-               console.log("number of tes: " + response.data.length);
                return response.data;
             });
          }]
