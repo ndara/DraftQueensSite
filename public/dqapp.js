@@ -4,7 +4,11 @@ var app = angular.module('mainApp', [
 ]);
 
 app.constant('terms', {
-   'TERMS' : 'These are the terms and conditions...'
+   'TERMS' : "Anything you do on this site will be available to any and all "
+             + "users who join the site. Nothing is private other than "
+             + "users' passwords and cookie information. By checking the " + 
+             "checkbox, you agree to allow all of the data that you " +
+             "generate to be viewed by all other users of the site."
 });
 
 app.constant("errMap", {
