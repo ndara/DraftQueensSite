@@ -1,7 +1,6 @@
 // This middleware assumes cookieParser has been "used" before this
 
 var crypto = require('crypto');
-
 var sessions = {};          // All currently logged-in Sessions
 var duration = 7200000;     // Two hours in milliseconds
 var cookieName = 'CHSAuth'; // Cookie key for authentication tokens

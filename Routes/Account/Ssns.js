@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
    for (var cookie in ssnUtil.sessions) {
       ssn = ssnUtil.sessions[cookie];
       body.push({cookie: cookie, prsId: ssn.id,
+
        loginTime: ssn.loginTime});
    }
 

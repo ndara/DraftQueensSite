@@ -61,36 +61,36 @@ router.get('/:id', function(req, res) {
     'termsAccepted, whenRegistered from Person where id = ?';
 
    req.cnn.query(baseQuery, [req.params.id],
-   function(err, prsArr) {
+    function(err, prsArr) {
 
-      if (vld.check(prsArr.length, Tags.notFound)) {
-         for (prs in prsArr) {
+       if (vld.check(prsArr.length, Tags.notFound)) {
+          for (prs in prsArr) {
 
-            if (prsArr[prs]["termsAccepted"] &&
-             prsArr[prs]["whenRegistered"]) {
-               prsArr[prs]["termsAccepted"] = prsArr[prs]["termsAccepted"]
-                .getTime();
-               prsArr[prs]["whenRegistered"] = 
-                prsArr[prs]["whenRegistered"].getTime();
-            }
+             if (prsArr[prs]["termsAccepted"] &&
+              prsArr[prs]["whenRegistered"]) {
+                prsArr[prs]["termsAccepted"] = prsArr[prs]["termsAccepted"]
+                 .getTime();
+                prsArr[prs]["whenRegistered"] = 
+                 prsArr[prs]["whenRegistered"].getTime();
+             }
 
-            else if (!prsArr[prs]["whenRegistered"] 
-             && prsArr[prs]["termsAccepted"]) {
-               prsArr[prs]["termsAccepted"] = prsArr[prs]["termsAccepted"]
-                .getTime();
-            }
+             else if (!prsArr[prs]["whenRegistered"] 
+              && prsArr[prs]["termsAccepted"]) {
+                prsArr[prs]["termsAccepted"] = prsArr[prs]["termsAccepted"]
+                 .getTime();
+             }
 
-            else if (!prsArr[prs]["termsAccepted"] && 
-             prsArr[prs]["whenRegistered"]) {
-               prsArr[prs]["whenRegistered"] = 
-                prsArr[prs]["whenRegistered"].getTime();
-            }
+             else if (!prsArr[prs]["termsAccepted"] && 
+              prsArr[prs]["whenRegistered"]) {
+                prsArr[prs]["whenRegistered"] = 
+                 prsArr[prs]["whenRegistered"].getTime();
+             }
 
-         }
-         res.json(prsArr);
-      }
-      req.cnn.release();
-   });
+          }
+          res.json(prsArr);
+       }
+       req.cnn.release();
+    });
 });
 
 module.exports = router;
