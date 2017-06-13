@@ -29,8 +29,10 @@ var removePlayers = function(req, res, err, tms, savedPlys) {
                 newPlys.push(savedPlys[i]);
              }
          }
+
          res.status(200).json(newPlys);
       }
+
       else if (tms.length == 1) {
          for (i = 0; i < savedPlys.length; i++) {
             if (savedPlys[i].id !== tms[0]['player1'] &&
@@ -61,6 +63,7 @@ router.get('/', function(req, res) {
           + ' from Player where pos1 = ?', [req.query.position],
           function(err, plys) {
              if (!err) {
+
                 savedPlys = plys;
                 req.cnn.chkQry('select player1, player2, player3, player4, '
                  + 'player5, player6, player7 from Team where lobbyId = ?',
@@ -89,6 +92,7 @@ router.get('/', function(req, res) {
          req.cnn.chkQry('select id, fname, lname, pos1, height, weight, team'
           + ' from Player', null, function(err, plys) {
              if (!err) {
+
                 savedPlys = plys;
                 req.cnn.chkQry('select player1, player2, player3, player4, '
                  + 'player5, player6, player7 from Team where lobbyId = ?',
