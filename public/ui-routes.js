@@ -29,7 +29,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
             .then(function(response) {
                return response.data;
             });
-         }]
+         }],
       }
    })
    .state('draft', {

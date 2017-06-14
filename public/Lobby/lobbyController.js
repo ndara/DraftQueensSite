@@ -12,8 +12,7 @@ app.controller('lobbyController',
       });
    };
 
-   $interval($scope.getLobbies, 2000);
-
+   $scope.loopGetLobbies = $interval($scope.getLobbies, 2000);
 
    $scope.joinLobby = function(lobby) {
       var selectedName;
@@ -90,7 +89,7 @@ app.controller('lobbyController',
       });
    };
 
-   $scope.edit = function(index) {
+   $scope.edit = function(lobby) {
       $scope.dlgTitle = 'Edit Lobby Name';
       $uibM.open({
          templateUrl: 'Lobby/editLobbyDlg.template.html',
@@ -98,7 +97,7 @@ app.controller('lobbyController',
       }).result
       .then(function(lobbyName) {
          selectedTitle = lobbyName;
-         return $http.put('/Lobbies/' + lobbies[index].id, {name: lobbyName});
+         return $http.put('/Lobbies/' + lobby.id, {name: lobbyName});
       })
       .then(function() {
          return $http.get('/Lobbies');
@@ -131,4 +130,18 @@ app.controller('lobbyController',
          }
       });
    };
+
+   $state.onExit = function() {
+      console.log("HERE");
+      if (angular.isDefined($scope.loopGetLobbies)) {
+         console.log("WE OUT HERE");
+         $interval.cancel($scope.loopGetLobbies);
+      }
+   };
+   
+   $scope.$on('$destroy', function() {
+      if (angular.isDefined($scope.loopGetLobbies)) {
+         $interval.cancel($scope.loopGetLobbies);
+      }
+   });
 }]);

@@ -2,7 +2,7 @@
 <h2>Lobbies</h2>
 <div class="list-group">
    <div class="list-group-item" ng-repeat="lobby in lobbies">
-      <lobby-sum user="user" lobby="lobby" edit="edit($index)"
+      <lobby-sum user="user" lobby="lobby" edit="edit(lobby)"
        delete="delete($index)" join-lobby="joinLobby(lobby)">
    </div>
    <br>
