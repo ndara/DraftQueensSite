@@ -118,6 +118,9 @@ app.controller('draftController',
             }
          })
          .then(function(rsp) {
+            if (rsp) {
+               plys.push(rsp.data);
+            }
             team.players = plys;
          })
          .catch(function(err) {
@@ -176,7 +179,7 @@ app.controller('draftController',
    };
 
    $scope.isDraftComplete = function() {
-      return $scope.turn > 13 || $scope.turn === null;
+      return $scope.turn > 12 || $scope.turn === null;
    };
 
    $scope.loopUpdateDraft = $interval($scope.updateDraft, 500);
